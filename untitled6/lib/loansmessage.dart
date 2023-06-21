@@ -133,7 +133,7 @@ class _MyAppState extends State<lmessage> {
 
   void sendSms() async {
     String accountSid = 'AC29adea0d1b73d261d1788185df59d77d';
-    String authToken = '99e04fa03c2dd938fe732588babfdfcc';
+    String authToken = '352b202f9bebe4af256af51ba36078a0';
     String fromNumber = '+12705141944';
     String toNumber = mobilee.text;
     String message = dropdown;
@@ -377,35 +377,6 @@ class _MyAppState extends State<lmessage> {
                                 },
                               ),
                             ),
-                          ),
-                          Row(
-                            children: <Widget>[
-                              SizedBox(
-                                height: 50,
-                              ),
-                              Container(
-                                child: Text(
-                                    " Send message to All ",
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                    )),
-                              ),
-                              SizedBox(
-                                width: 30,
-                              ),
-                              Checkbox(
-                                checkColor: Colors.white,
-                                fillColor:
-                                MaterialStateProperty.resolveWith(getColor),
-                                value: isChecked,
-                                onChanged: (bool? value) {
-                                  setState(() {
-                                    isChecked = value!;
-                                  });
-                                },
-                              )
-                            ],mainAxisAlignment: MainAxisAlignment.center,
                           ),
                         ],
                       ),

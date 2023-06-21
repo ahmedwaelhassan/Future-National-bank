@@ -57,6 +57,24 @@ dependencies:
   crypto: ^3.0.0
   pointycastle: ^3.0.0
 
+  image_test_utils:
+  flutter_opencv:
+
+  google_maps_flutter:
+  flutter_map: ^2.0.0
+  geolocator: ^9.0.1
+
+  flutter_pw_validator: ^1.5.0
+  bidi:
+  dartarabic: ^0.1.2
+
+ui:
+  title: My App
+  button:
+    text: Hot Reload
+    onTap: performHotReload
+
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -98,6 +116,8 @@ flutter:
   - images/debit.jpeg
   - images/credit.jpeg
   - images/logo4.jpg
+  - images/depsoitt.png
+  - images/currencyy.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

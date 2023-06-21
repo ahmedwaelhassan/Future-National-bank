@@ -48,6 +48,8 @@ class transfers extends StatefulWidget {
       nationalid: nationalid);
 }
 
+
+bool isChecked = false;
 TextEditingController accnum = new TextEditingController();
 TextEditingController accnum2 = new TextEditingController();
 TextEditingController amount = new TextEditingController();
@@ -97,6 +99,7 @@ Future<Null> selectTime(BuildContext context) async {
   time1 = tpicked!;
   print(time1.toString());
 }
+
 var h;
 
 Future SendData2(var date, var time) async {
@@ -106,13 +109,20 @@ Future SendData2(var date, var time) async {
   final key = "2f7b4e8d71c4a00f2a3f4c175a8a4e6c";
   final aes = Aes(key);
 
-  final encAcc = base64Encode(aes.encrypt(Uint8List.fromList(utf8.encode(accnum.text))));
-  final encAcc2 = base64Encode(aes.encrypt(Uint8List.fromList(utf8.encode(accnum2.text))));
-  final enctype = base64Encode(aes.encrypt(Uint8List.fromList(utf8.encode('Bank transfer'))));
-  final encamount = base64Encode(aes.encrypt(Uint8List.fromList(utf8.encode(amount.text))));
-  final encdate = base64Encode(aes.encrypt(Uint8List.fromList(utf8.encode(date))));
-  final enctime = base64Encode(aes.encrypt(Uint8List.fromList(utf8.encode(time))));
-  final encrbalance = base64Encode(aes.encrypt(Uint8List.fromList(utf8.encode(h.toString()))));
+  final encAcc =
+      base64Encode(aes.encrypt(Uint8List.fromList(utf8.encode(accnum.text))));
+  final encAcc2 =
+      base64Encode(aes.encrypt(Uint8List.fromList(utf8.encode(accnum2.text))));
+  final enctype = base64Encode(
+      aes.encrypt(Uint8List.fromList(utf8.encode('Bank transfer'))));
+  final encamount =
+      base64Encode(aes.encrypt(Uint8List.fromList(utf8.encode(amount.text))));
+  final encdate =
+      base64Encode(aes.encrypt(Uint8List.fromList(utf8.encode(date))));
+  final enctime =
+      base64Encode(aes.encrypt(Uint8List.fromList(utf8.encode(time))));
+  final encrbalance =
+      base64Encode(aes.encrypt(Uint8List.fromList(utf8.encode(h.toString()))));
 
   final response = await http.post(url, body: {
     "accountnumber": encAcc,
@@ -160,7 +170,6 @@ class _transfersState extends State<transfers> {
   });
 
   Future Updatedata(var accnum1, var c) async {
-
     var url =
         Uri.parse('https://inconspicuous-pairs.000webhostapp.com/Deposit.php');
 
@@ -170,8 +179,10 @@ class _transfersState extends State<transfers> {
     final key = "2f7b4e8d71c4a00f2a3f4c175a8a4e6c";
     final aes = Aes(key);
 
-    final encAcc = base64Encode(aes.encrypt(Uint8List.fromList(utf8.encode(accnum1))));
-    final encbalance = base64Encode(aes.encrypt(Uint8List.fromList(utf8.encode(c.toString()))));
+    final encAcc =
+        base64Encode(aes.encrypt(Uint8List.fromList(utf8.encode(accnum1))));
+    final encbalance = base64Encode(
+        aes.encrypt(Uint8List.fromList(utf8.encode(c.toString()))));
 
     final response = await http.post(url, body: {
       "accnum": encAcc,
@@ -209,11 +220,11 @@ class _transfersState extends State<transfers> {
     final key = "2f7b4e8d71c4a00f2a3f4c175a8a4e6c";
     final aes = Aes(key);
 
-    final encAcc = base64Encode(aes.encrypt(Uint8List.fromList(utf8.encode(accnum))));
+    final encAcc =
+        base64Encode(aes.encrypt(Uint8List.fromList(utf8.encode(accnum))));
 
     var response = await http.post(url, body: {
-    "accountnumber": encAcc,
-
+      "accountnumber": encAcc,
     });
 
     // print(json.decode(response.body));
@@ -225,10 +236,10 @@ class _transfersState extends State<transfers> {
   }
 
   Future<void> getData(String accnum) async {
-
     final key = "2f7b4e8d71c4a00f2a3f4c175a8a4e6c";
     final aes = Aes(key);
-    final decryptedaccnum = utf8.decode(aes.decrypt(base64Decode(data[0]["accountnumber"])));
+    final decryptedaccnum =
+        utf8.decode(aes.decrypt(base64Decode(data[0]["accountnumber"])));
 
     accountnum1 = decryptedaccnum;
     balance1 = data[0]["balance"];
@@ -375,11 +386,27 @@ class _transfersState extends State<transfers> {
                                     controller: accnum,
                                     cursorColor: Colors.black,
                                     onSubmitted: (value) async {
+
                                       await getUserData(accnum.text);
                                       await getData(accnum.text);
                                       cfn11.text = name;
                                       balance11.text = balance1;
                                       nationalid1.text = id1;
+
+
+                                      /*final key = "2f7b4e8d71c4a00f2a3f4c175a8a4e6c";
+                                      final aes = Aes(key);
+
+                                      if(accnum.text == utf8.decode(aes.decrypt(base64Decode(data[0]["accountnumber"]))))
+                                        {
+
+                                        }
+                                      else
+                                        {
+                                          showAlertDialog(context, " Wrong account number ");
+                                        }*/
+
+
                                     },
                                     onChanged: (value) {
                                       setState(() {});
@@ -792,23 +819,25 @@ class _transfersState extends State<transfers> {
                           width: 30,
                         ),
                         IconButton(
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => Signatureeee1(
-                                        Email: Email,
-                                        Password: Password,
-                                        username: username,
-                                        mobile: mobile,
-                                        Gender: Gender,
-                                        dob: dob,
-                                        id: id,
-                                        Adress: Adress,
-                                        nationalid: nationalid),
-                                  ));
-                            },
-                            icon: Icon(Icons.paste_outlined),iconSize: 30,)
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => Signatureeee1(
+                                      Email: Email,
+                                      Password: Password,
+                                      username: username,
+                                      mobile: mobile,
+                                      Gender: Gender,
+                                      dob: dob,
+                                      id: id,
+                                      Adress: Adress,
+                                      nationalid: nationalid),
+                                ));
+                          },
+                          icon: Icon(Icons.paste_outlined),
+                          iconSize: 30,
+                        )
                       ],
                     ),
                     Row(
@@ -850,9 +879,11 @@ class _transfersState extends State<transfers> {
                           Container(
                             child: ElevatedButton(
                               onPressed: () async {
-                                if (amount.text == "" || accnum2.text == "") {
+                                if(isChecked==true)
+                                  {
+                                if (amount.text == "" || accnum2.text == "" || cfn2.text == "" || moobb.text == "" ) {
                                   showAlertDialog(
-                                      context, " Please Enter values ");
+                                      context, " There are missing values ");
                                 } else {
                                   if (int.parse(amount.text) >
                                       int.parse(balance1)) {
@@ -891,6 +922,9 @@ class _transfersState extends State<transfers> {
                                           "Money has been transfer sucessfuly");
                                     });
                                   }
+                                }
+                              }else{
+                                  showAlertDialog(context, "Must check requird box ");
                                 }
                               },
                               child: Text('Transfer',
@@ -944,6 +978,7 @@ void showAlertDialog(BuildContext context, var text) {
         return alertDialog;
       });
 }
+
 class Signatureeee1 extends StatefulWidget {
   var Email = "";
   var Password = "";
@@ -1021,40 +1056,40 @@ class _MyHomePageState extends State<Signatureeee1> {
           padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
           child: Container(
               child: Row(children: [
-                SizedBox(
-                  width: 50,
-                ),
-                Image(
-                  image: AssetImage("images/logo3.jpeg"),
-                  height: 150,
-                ),
-                SizedBox(width: 1250),
-                IconButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => Search(
-                                Email: Email,
-                                Password: Password,
-                                username: username,
-                                mobile: mobile,
-                                Gender: Gender,
-                                dob: dob,
-                                id: id,
-                                Adress: Adress,
-                                nationalid: nationalid),
-                          ));
-                    },
-                    icon: Icon(
-                      Icons.person_search_rounded,
-                      color: Colors.white,
-                      size: 30,
-                    )),
-                SizedBox(
-                  width: 10,
-                ),
-              ])),
+            SizedBox(
+              width: 50,
+            ),
+            Image(
+              image: AssetImage("images/logo3.jpeg"),
+              height: 150,
+            ),
+            SizedBox(width: 1250),
+            IconButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => Search(
+                            Email: Email,
+                            Password: Password,
+                            username: username,
+                            mobile: mobile,
+                            Gender: Gender,
+                            dob: dob,
+                            id: id,
+                            Adress: Adress,
+                            nationalid: nationalid),
+                      ));
+                },
+                icon: Icon(
+                  Icons.person_search_rounded,
+                  color: Colors.white,
+                  size: 30,
+                )),
+            SizedBox(
+              width: 10,
+            ),
+          ])),
         ),
         backgroundColor: Color(0xff8d0000),
       ),
@@ -1092,9 +1127,9 @@ class _MyHomePageState extends State<Signatureeee1> {
                         ),
                         style: ButtonStyle(
                             backgroundColor:
-                            MaterialStateProperty.all<Color>(Colors.red),
+                                MaterialStateProperty.all<Color>(Colors.red),
                             shape: MaterialStateProperty.all<
-                                RoundedRectangleBorder>(
+                                    RoundedRectangleBorder>(
                                 RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(18.0),
                                     side: BorderSide(color: Colors.red)))))),
@@ -1110,59 +1145,82 @@ class _MyHomePageState extends State<Signatureeee1> {
                         ),
                         style: ButtonStyle(
                             backgroundColor:
-                            MaterialStateProperty.all<Color>(Colors.blue),
+                                MaterialStateProperty.all<Color>(Colors.blue),
                             shape: MaterialStateProperty.all<
-                                RoundedRectangleBorder>(
+                                    RoundedRectangleBorder>(
                                 RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(18.0),
                                     side:
-                                    BorderSide(color: Colors.white70)))))),
+                                        BorderSide(color: Colors.white70)))))),
                 Padding(
                     padding: EdgeInsets.all(5),
                     child: ElevatedButton(
                         onPressed: () async {
+                          String imagePath =
+                              'C:\\Users\\green\\StudioProjects\\untitled6\\signature\\${4519201933174444}.png';
 
-                          // Get the saved signature image
-                          final file = File('C:\\Users\\green\\StudioProjects\\untitled6\\signature\\${accnum.text}.png');
-                          final savedImageData = await file.readAsBytes();
+                          Uint8List? bytes1 = exportedImage;
+                          img.Image? image1 = img.decodeImage(bytes1!);
 
-                         /* var imageResult = await compareImages(
-                              src1: exportedImage, src2: savedImageData, algorithm:IMED(sigma : 1,blurRatio : 0.005));
+                          var bytes2 = File(
+                                  'C:\\Users\\green\\StudioProjects\\untitled6\\signature\\${4519201933174444}.png')
+                              .readAsBytesSync();
+                          var image2 = img.decodeImage(bytes2);
 
-                          print('Difference: ${imageResult}');
-                          showAlertDialog(context, ' Difference : ${imageResult}%');
+                          var imageResult = await compareImages(
+                              src1: image2,
+                              src2: image1,
+                              algorithm:
+                                  EuclideanColorDistance(ignoreAlpha: true));
 
+                          var sim = 100 - (imageResult * 100);
+                          print('Similarity: ${100 - (imageResult * 100)}%');
 
-                          var Accuracy = 100 - imageResult * 100;
+                          String result = '';
 
-                          print(Accuracy);
-*/
-                          var image1 = img.decodeImage(File('C:\\Users\\green\\StudioProjects\\untitled6\\signature\\${accnum.text}.png').readAsBytesSync());
-                          var image2 = img.decodeImage(File('C:\\Users\\green\\StudioProjects\\untitled6\\signature\\${accnum.text}.png').readAsBytesSync());
-
-                          // Resize the images to the same size
-                          var resizedImage1 = img.copyResize(image1!, width: image2!.width, height: image2.height);
-
-                          // Calculate the MSE
-                          var mse = 0.0;
-                          for (var y = 0; y < image2.height; y++) {
-                            for (var x = 0; x < image2.width; x++) {
-                              var pixel1 = resizedImage1.getPixel(x, y);
-                              var pixel2 = image2.getPixel(x, y);
-                              var redDiff = ((pixel1 >> 16) & 0xFF) - ((pixel2 >> 16) & 0xFF);
-                              var greenDiff = ((pixel1 >> 8) & 0xFF) - ((pixel2 >> 8) & 0xFF);
-                              var blueDiff = (pixel1 & 0xFF) - (pixel2 & 0xFF);
-                              mse += pow(redDiff, 2) + pow(greenDiff, 2) + pow(blueDiff, 2);
-                            }
+                          if (sim >= 85) {
+                            result = 'Matched';
+                          } else {
+                            result = 'Not Matched';
                           }
-                          mse /= ((image2.width * image2.height * 3)*100);
 
-                          print(" MSE between 2 images is $mse %");
-                          showDialog(context: context, builder: (context) => AlertDialog(
-                            title: Text('Signature similarity '),
-                            content: Text('MSE between 2 images is $mse %'),
-                          ),);
-
+                          if (File(imagePath).existsSync()) {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: Text('Result'),
+                                  content: Text('$result'),
+                                  actions: [
+                                    TextButton(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                        child: Text('OK'))
+                                  ],
+                                );
+                              },
+                            );
+                          } else {
+                            // Display an error message if the stored image file doesn't exist
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: Text('Error'),
+                                  content: Text(
+                                      'The signature image for the entered account number does not exist.'),
+                                  actions: [
+                                    TextButton(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                        child: Text('OK'))
+                                  ],
+                                );
+                              },
+                            );
+                          }
                         },
                         child: const Text(
                           "Compare",
@@ -1170,13 +1228,12 @@ class _MyHomePageState extends State<Signatureeee1> {
                         ),
                         style: ButtonStyle(
                             backgroundColor:
-                            MaterialStateProperty.all<Color>(Colors.red),
+                                MaterialStateProperty.all<Color>(Colors.red),
                             shape: MaterialStateProperty.all<
-                                RoundedRectangleBorder>(
+                                    RoundedRectangleBorder>(
                                 RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(18.0),
                                     side: BorderSide(color: Colors.red)))))),
-
               ],
             ),
             SizedBox(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:untitled6/terms.dart';
 
 import 'Bar.dart';
 import 'Crypto/crypto.dart';
@@ -35,32 +36,6 @@ class certificaterequest extends StatefulWidget {
 TextEditingController certtidd =TextEditingController();
 var status ;
 
-Future Updatedata(var certid) async {
-
-  var url = Uri.parse(
-      'https://inconspicuous-pairs.000webhostapp.com/cert%20getdata.php');
-  print(certid);
-  final response = await http.post(url, body: {
-    "certid": certid,
-    "status": status,
-
-  });
-  try {
-    var data = json.decode(response.body);
-    print(data);
-    if (data == "Error") {
-      print("mansour");
-    } else if (data == "Success") {
-      print("bebo");
-    } else {
-      print("error");
-    }
-  } catch (e) {
-    print(e);
-  }
-}
-
-
 class certificaterequestState extends State<certificaterequest> {
 
   var Email = "";
@@ -85,6 +60,40 @@ class certificaterequestState extends State<certificaterequest> {
     required this.nationalid,
   });
 
+  Future Updatedata(var certid) async {
+
+    var url = Uri.parse(
+        'https://inconspicuous-pairs.000webhostapp.com/cert%20getdata.php');
+    print(certid);
+    final response = await http.post(url, body: {
+      "certid": certid,
+      "status": status,
+
+    });
+    try {
+      var data = json.decode(response.body);
+      print(data);
+      if (data == "Error") {
+        print("mansour");
+      } else if (data == "Success") {
+
+        if(status == "Approved")
+        {
+          showAlertDialog1(context, " Certificate request has been approved ");
+        }
+        else{
+          showAlertDialog1(context, " Certificate request has been denied ");
+        }
+
+      } else {
+        print("error");
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
+
   Future<List<dynamic>> fetchTransactions() async {
     final response = await http.get(Uri.parse(
         'https://inconspicuous-pairs.000webhostapp.com/certrequestDesktopppp.php?status='''));
@@ -101,7 +110,6 @@ class certificaterequestState extends State<certificaterequest> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         home: DefaultTabController(
@@ -184,7 +192,6 @@ class certificaterequestState extends State<certificaterequest> {
                                     fontSize: 30,
                                     fontWeight: FontWeight.bold)),
                           ),
-
                           SizedBox(
                             height: 530,
                             child: FutureBuilder<List<dynamic>>(
@@ -371,10 +378,6 @@ class certificaterequestState extends State<certificaterequest> {
                                           else {
                                             Updatedata(certtidd.text);
                                             status = "Approved";
-                                            setState(() {
-                                              showAlertDialog(context,
-                                                  " Certificate request has been approved");
-                                            });
                                           }
                                         },
                                         child: Text(
@@ -409,10 +412,6 @@ class certificaterequestState extends State<certificaterequest> {
                                     else {
                                       Updatedata(certtidd.text);
                                       status = "Denied";
-                                      setState(() {
-                                        showAlertDialog(context,
-                                            " Certificate request has been denied");
-                                      });
                                     }
                                   },
                                   child: Text('Denied',

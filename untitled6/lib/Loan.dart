@@ -210,8 +210,8 @@ class loanState extends State<loan> {
                                     children: [
                                       Container(
                                         padding: EdgeInsets.only(
-                                            left: 350,
-                                            right: 350,
+                                            left: 0,
+                                            right: 0,
                                             top: 20,
                                             bottom: 5),
                                         child: Container(
@@ -223,163 +223,55 @@ class loanState extends State<loan> {
                                                 BorderRadius.circular(10),
                                             color: Color(0xfffcc8c8),
                                           ),
-                                          child: Column(
-                                            children: <Widget>[
-                                              SizedBox(
-                                                height: 10,
+                                          child:  Container(
+                                            child: DataTable(
+                                              decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.all(Radius.circular(15)),
+                                                gradient: LinearGradient(
+                                                  begin:Alignment.topLeft,
+                                                  end: Alignment.bottomRight,
+                                                  colors: [
+                                                    Color(0xffffeaea),
+                                                    Color(0xffffffff),
+                                                  ],
+                                                ),
                                               ),
-                                              Row(
-                                                children: [
-                                                  Container(
-                                                    child: Text(
-                                                        '  loan id : ${snapshot.data?[index]['loanid']}',
-                                                        style: TextStyle(
-                                                            fontSize: 17,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold)),
-                                                    padding: EdgeInsets.only(
-                                                        left: 5),
-                                                  ),
-                                                ],
-                                              ),
-                                              SizedBox(
-                                                height: 10,
-                                              ),
-                                              Row(
-                                                children: [
-                                                  Container(
-                                                    child: Text(
-                                                        '  Amount : ${snapshot.data?[index]['amount']}',
-                                                        style: TextStyle(
-                                                            fontSize: 17,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold)),
-                                                    padding: EdgeInsets.only(
-                                                        left: 5),
-                                                  ),
-                                                ],
-                                              ),
-                                              SizedBox(
-                                                height: 10,
-                                              ),
-                                              Row(
-                                                children: [
-                                                  Container(
-                                                    child: Text(
-                                                        '  Period : ${snapshot.data?[index]['period']}',
-                                                        style: TextStyle(
-                                                            fontSize: 17,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold)),
-                                                    padding: EdgeInsets.only(
-                                                        left: 5),
-                                                  ),
-                                                ],
-                                              ),
-                                              SizedBox(
-                                                height: 10,
-                                              ),
-                                              Row(
-                                                children: [
-                                                  Container(
-                                                    child: Text(
-                                                        '  Rate : ${snapshot.data?[index]['rate']}',
-                                                        style: TextStyle(
-                                                            fontSize: 17,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold)),
-                                                    padding: EdgeInsets.only(
-                                                        left: 5),
-                                                  ),
-                                                ],
-                                              ),
-                                              SizedBox(
-                                                height: 10,
-                                              ),
-                                              Row(
-                                                children: [
-                                                  Container(
-                                                    child: Text(
-                                                        '  Total interest : ${snapshot.data?[index]['totalinterest']}',
-                                                        style: TextStyle(
-                                                            fontSize: 17,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold)),
-                                                    padding: EdgeInsets.only(
-                                                        left: 5),
-                                                  ),
-                                                ],
-                                              ),
-                                              SizedBox(
-                                                height: 10,
-                                              ),
-                                              Row(
-                                                children: [
-                                                  Container(
-                                                    child: Text(
-                                                        '  Total Payable : ${snapshot.data?[index]['totalpayable']}',
-                                                        style: TextStyle(
-                                                            fontSize: 17,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold)),
-                                                    padding: EdgeInsets.only(
-                                                        left: 5),
-                                                  ),
-                                                ],
-                                              ),
-                                              SizedBox(
-                                                height: 10,
-                                              ),
-                                              Row(
-                                                children: [
-                                                  Container(
-                                                    child: Text(
-                                                        '  Monthly : ${snapshot.data?[index]['monthly']}',
-                                                        style: TextStyle(
-                                                            fontSize: 17,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold)),
-                                                    padding: EdgeInsets.only(
-                                                        left: 5),
-                                                  ),
-                                                ],
-                                              ),
-                                              SizedBox(
-                                                height: 10,
-                                              ),
-                                              Row(
-                                                children: [
-                                                  Container(
-                                                    child: Text(
-                                                        '  Account number : ${snapshot.data?[index]['accountnumber']}',
-                                                        style: TextStyle(
-                                                            fontSize: 17,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold)),
-                                                    padding: EdgeInsets.only(
-                                                        left: 5),
-                                                  ),
-                                                ],
-                                              ),
-                                              SizedBox(
-                                                height: 20,
-                                              ),
-                                              Row(
-                                                children: [
-                                                  Image.memory(base64Decode(
-                                                      snapshot.data?[index]
-                                                          ['image'])),
-                                                ],
-                                              ),
-                                            ],
+                                              dividerThickness: 3,
+                                              columns: [
+                                                DataColumn(label: Text("Loan id ",style: TextStyle(fontSize: 14,fontWeight: FontWeight.bold)),),
+                                                DataColumn(label: Text("Account number ",style: TextStyle(fontSize: 14,fontWeight: FontWeight.bold)),),
+                                                DataColumn(label: Text("Name ",style: TextStyle(fontSize: 14,fontWeight: FontWeight.bold)),),
+                                                DataColumn(label: Text("Amount ",style: TextStyle(fontSize: 14,fontWeight: FontWeight.bold)),),
+                                                DataColumn(label: Text("Period ",style: TextStyle(fontSize: 14,fontWeight: FontWeight.bold)),),
+                                                DataColumn(label: Text("Rate ",style: TextStyle(fontSize: 14,fontWeight: FontWeight.bold)),),
+                                                DataColumn(label: Text("Total interest ",style: TextStyle(fontSize: 14,fontWeight: FontWeight.bold)),),
+                                                DataColumn(label: Text("Total payable ",style: TextStyle(fontSize: 14,fontWeight: FontWeight.bold)),),
+                                                DataColumn(label: Text("Monthly ",style: TextStyle(fontSize: 14,fontWeight: FontWeight.bold)),),
+                                                DataColumn(label: Text("Job ",style: TextStyle(fontSize: 14,fontWeight: FontWeight.bold)),),
+                                                DataColumn(label: Text("Salary ",style: TextStyle(fontSize: 14,fontWeight: FontWeight.bold)),),
+                                                DataColumn(label: Text("Image ",style: TextStyle(fontSize: 14,fontWeight: FontWeight.bold)),),
+                                              ],
+                                              rows: [
+                                                DataRow(cells: [
+                                                  DataCell(Text("${snapshot.data?[index]['loanid']} ",style: TextStyle(fontSize: 13))),
+                                                  DataCell(Text("${snapshot.data?[index]['accountnumber']}",style: TextStyle(fontSize: 13))),
+                                                  DataCell(Text("${snapshot.data?[index]['name']} ",style: TextStyle(fontSize: 13))),
+                                                  DataCell(Text("${snapshot.data?[index]['amount']} (EGP)",style: TextStyle(fontSize: 13))),
+                                                  DataCell(Text("${snapshot.data?[index]['period']}",style: TextStyle(fontSize: 13))),
+                                                  DataCell(Text("${snapshot.data?[index]['rate']} (%)",style: TextStyle(fontSize: 13))),
+                                                  DataCell(Text("${snapshot.data?[index]['totalinterest']} (EGP)",style: TextStyle(fontSize: 13))),
+                                                  DataCell(Text("${snapshot.data?[index]['totalpayable']} (EGP) ",style: TextStyle(fontSize: 13))),
+                                                  DataCell(Text("${snapshot.data?[index]['monthly']} (EGP)",style: TextStyle(fontSize: 13))),
+                                                  DataCell(Text("${snapshot.data?[index]['job']} ",style: TextStyle(fontSize: 13))),
+                                                  DataCell(Text("${snapshot.data?[index]['salary']} (EGP) ",style: TextStyle(fontSize: 13))),
+                                                  DataCell(IconButton(onPressed: (){
+                                                    showDialog(context: context, builder: (context) =>
+                                                      Image.memory(base64Decode(snapshot.data?[index]['image'])));},
+                                                      icon: Icon(Icons.image))),
+
+                                                ]),
+                                              ],
+                                            ),
                                           ),
                                         ),
                                       ),
@@ -445,9 +337,14 @@ class loanState extends State<loan> {
                             Container(
                               child: ElevatedButton(
                                 onPressed: () {
-                                  Updatedata(loanidd.text);
-                                  status = "Approved";
-                                  setState(() {});
+                                  if(loanidd.text == "")
+                                  {
+                                    showAlertDialog(context, " Enter loan id ");
+                                  }
+                                  else {
+                                    Updatedata(loanidd.text);
+                                    status = "Approved";
+                                  }
                                 },
                                 child: Text(
                                   'Approve',
@@ -473,9 +370,14 @@ class loanState extends State<loan> {
                           Center(
                             child: ElevatedButton(
                               onPressed: () {
-                                Updatedata(loanidd.text);
-                                status = "Denied";
-                                setState(() {});
+                                if(loanidd.text == "")
+                                {
+                                  showAlertDialog(context, " Enter loan id ");
+                                }
+                                else {
+                                  Updatedata(loanidd.text);
+                                  status = "Denied";
+                                }
                               },
                               child: Text('Denied',
                                   style: TextStyle(

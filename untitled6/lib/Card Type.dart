@@ -124,16 +124,6 @@ class _MyAppState extends State<CardType> {
                       SizedBox(
                         height: 20,
                       ),
-                      Row(
-                        children: <Widget>[
-                          Container(
-                            padding: EdgeInsets.only(left: 25),
-                            child: Text('My Card',
-                                style: TextStyle(
-                                    fontSize: 23, fontWeight: FontWeight.bold)),
-                          )
-                        ],
-                      ),
                       SizedBox(
                         height: 20,
                       ),
@@ -154,6 +144,16 @@ class _MyAppState extends State<CardType> {
                         child: Column(children: [
                           Row(
                             children: <Widget>[
+                              SizedBox(width: 40),
+                              Container(
+                                  child: Text(
+                                    'Credit',
+                                    style: TextStyle(
+                                        fontSize: 21,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white),
+                                  )),
+                              SizedBox(width: 150),
                               Container(
                                 child: Image(
                                     image: AssetImage('images/fnb1.png'),
@@ -161,7 +161,6 @@ class _MyAppState extends State<CardType> {
                                     width: 100),
                               ),
                             ],
-                            mainAxisAlignment: MainAxisAlignment.end,
                           ),
                           Row(
                             children: <Widget>[
@@ -207,6 +206,45 @@ class _MyAppState extends State<CardType> {
                             ],
                           ),
                         ]),
+                      ),SizedBox(
+                        height: 15,
+                      ),
+                      Row(
+                        children: [
+                          Container(
+                            padding: EdgeInsets.only(left: 30),
+                            child: Text('Maximum Credit Limit : 300,000 EGP',
+                                style: TextStyle(fontSize: 17)),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Row(
+                        children: [
+                          Container(
+                            padding: EdgeInsets.only(left: 30),
+                            child: Text(
+                                'online card usage : available ',
+                                style: TextStyle(fontSize: 17)),
+                          ),
+                        ],
+                      ),SizedBox(
+                        height: 10,
+                      ),
+                      Row(
+                        children: [
+                          Container(
+                            padding: EdgeInsets.only(left: 30),
+                            child: Text(
+                                'Card usage : locally and abroad ',
+                                style: TextStyle(fontSize: 17)),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 15,
                       ),
                       Divider(
                         indent: 0,
@@ -216,16 +254,7 @@ class _MyAppState extends State<CardType> {
                       SizedBox(
                         height: 20,
                       ),
-                      Row(
-                        children: <Widget>[
-                          Container(
-                            padding: EdgeInsets.only(left: 25),
-                            child: Text('Cards Offers',
-                                style: TextStyle(
-                                    fontSize: 23, fontWeight: FontWeight.bold)),
-                          )
-                        ],
-                      ),
+
                       SizedBox(
                         height: 20,
                       ),

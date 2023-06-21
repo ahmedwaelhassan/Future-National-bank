@@ -9,64 +9,114 @@ import 'package:http/http.dart' as http;
 import 'dart:math';
 
 class certificate extends StatefulWidget {
-  var Email="";
-  var Password ="";
-  var username="";
-  var mobile="";
-  var Gender="";
-  var dob="";
-  var id="";
-  var Adress="";
-  var nationalid="";
+  var Email = "";
+  var Password = "";
+  var username = "";
+  var mobile = "";
+  var Gender = "";
+  var dob = "";
+  var id = "";
+  var Adress = "";
+  var nationalid = "";
 
-  certificate(
-      {
-        required this.Email,
-        required this.Password,
-        required this.username,
-        required this.mobile,
-        required this.Gender,
-        required this.dob,
-        required this.id,
-        required this.Adress,
-        required this.nationalid,
-      }
-      );
+  certificate({
+    required this.Email,
+    required this.Password,
+    required this.username,
+    required this.mobile,
+    required this.Gender,
+    required this.dob,
+    required this.id,
+    required this.Adress,
+    required this.nationalid,
+  });
 
   @override
-  State<certificate> createState() => _certificateState(Email: Email, Password: Password, username: username, mobile: mobile, Gender: Gender, dob: dob, id: id, Adress: Adress, nationalid: nationalid);
+  State<certificate> createState() => _certificateState(
+      Email: Email,
+      Password: Password,
+      username: username,
+      mobile: mobile,
+      Gender: Gender,
+      dob: dob,
+      id: id,
+      Adress: Adress,
+      nationalid: nationalid);
 }
 
 class _certificateState extends State<certificate> {
-  var Email="";
-  var Password ="";
-  var username="";
-  var mobile="";
-  var Gender="";
-  var dob="";
-  var id="";
-  var Adress="";
-  var nationalid="";
+  var Email = "";
+  var Password = "";
+  var username = "";
+  var mobile = "";
+  var Gender = "";
+  var dob = "";
+  var id = "";
+  var Adress = "";
+  var nationalid = "";
 
-  _certificateState(
-      {
-        required this.Email,
-        required this.Password,
-        required this.username,
-        required this.mobile,
-        required this.Gender,
-        required this.dob,
-        required this.id,
-        required this.Adress,
-        required this.nationalid,
-      }
-      );
+  _certificateState({
+    required this.Email,
+    required this.Password,
+    required this.username,
+    required this.mobile,
+    required this.Gender,
+    required this.dob,
+    required this.id,
+    required this.Adress,
+    required this.nationalid,
+  });
+
   terms() {
     // TODO: implement faqscode
     throw UnimplementedError();
   }
 
+
+  var unamee;
+  var iddd;
+
+  Future getUserData(String accnum) async {
+    var url = Uri.parse(
+        'https://inconspicuous-pairs.000webhostapp.com/Searchdesktop.php');
+
+    final key = "2f7b4e8d71c4a00f2a3f4c175a8a4e6c";
+    final aes = Aes(key);
+
+    final encAcc =
+    base64Encode(aes.encrypt(Uint8List.fromList(utf8.encode(accnum))));
+
+    var response = await http.post(url, body: {
+      "accountnumber": encAcc,
+    });
+
+    // print(json.decode(response.body));
+    var data1 = await json.decode(response.body);
+    print(data1);
+    data = data1;
+    return data1;
+    // return json.decode(response.body);
+  }
+
+  Future<void> getData(String accnum) async {
+    final key = "2f7b4e8d71c4a00f2a3f4c175a8a4e6c";
+    final aes = Aes(key);
+    final decryptedaccnum =
+    utf8.decode(aes.decrypt(base64Decode(data[0]["accountnumber"])));
+
+    accountnum1 = decryptedaccnum;
+
+    unamee = data[0]["name"];
+    iddd = data[0]["nationalid"];
+  }
+
+
+
+
+
   bool _swVal = false;
+  final formkey = GlobalKey<FormState>();
+  bool value = false ;
 
   void _onChange(bool val) {
     setState(() {
@@ -79,11 +129,15 @@ class _certificateState extends State<certificate> {
     'Platinum 3 years (Monthly 16%)',
     'Platinum 3 years (Half yearly 16.5%)',
     'Platinum 3 years (Yearly 17.5%)'
+        ,
+    'Platinum 2 years (Monthly 19%)',
+    'Platinum 2 years (Half yearly 19.5%)',
+    'Platinum 2 years (Yearly 20%)'
   ];
 
   String startdate = '';
   DateTime date1 = DateTime.now();
-  var c="";
+  var c = "";
 
   Future<Null> selectinDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
@@ -96,7 +150,7 @@ class _certificateState extends State<certificate> {
       setState(() {
         date1 = picked;
         print(date1.toString());
-        c=date1.toString();
+        c = date1.toString();
       });
     }
   }
@@ -106,13 +160,14 @@ class _certificateState extends State<certificate> {
   Random random = Random();
 
   Future SendData() async {
-
-    var url = Uri.parse('https://inconspicuous-pairs.000webhostapp.com/cert.php');
+    var url =
+        Uri.parse('https://inconspicuous-pairs.000webhostapp.com/cert.php');
 
     final key = "2f7b4e8d71c4a00f2a3f4c175a8a4e6c";
     final aes = Aes(key);
 
-    final encAcc = base64Encode(aes.encrypt(Uint8List.fromList(utf8.encode(accountnumber.text))));
+    final encAcc = base64Encode(
+        aes.encrypt(Uint8List.fromList(utf8.encode(accountnumber.text))));
 
     int randomNumber = random.nextInt(900) + 100;
 
@@ -120,13 +175,11 @@ class _certificateState extends State<certificate> {
     var certdate = "${date1.year}-${date1.month}-${date1.day}".toString();
 
     final response = await http.post(url, body: {
-
-      "accountnumber":encAcc,
+      "accountnumber": encAcc,
       "certtype": dropdown,
       "certdate": certdate,
       "certamount": amount.text,
-      "certid":id,
-
+      "certid": id,
     });
     try {
       var data = json.decode(response.body);
@@ -136,13 +189,10 @@ class _certificateState extends State<certificate> {
         setState(() {
           amount.text = '';
           accountnumber.text = '';
-          AlertDialog(
-            content: Text('Applied Successfully '),
-          );
+          showAlertDialog1(context, " Applied Successfully ");
         });
       }
-      if (data == "Already Exists") {
-      } 
+      if (data == "Already Exists") {}
     } catch (e) {
       print(e);
     }
@@ -172,7 +222,16 @@ class _certificateState extends State<certificate> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => Search(Email: Email, Password: Password, username: username, mobile: mobile, Gender: Gender, dob: dob, id: id, Adress: Adress, nationalid: nationalid),
+                                builder: (context) => Search(
+                                    Email: Email,
+                                    Password: Password,
+                                    username: username,
+                                    mobile: mobile,
+                                    Gender: Gender,
+                                    dob: dob,
+                                    id: id,
+                                    Adress: Adress,
+                                    nationalid: nationalid),
                               ));
                         },
                         icon: Icon(
@@ -200,7 +259,16 @@ class _certificateState extends State<certificate> {
                   labelColor: Color(0xff8d0000),
                   labelPadding: EdgeInsets.only(right: 0, left: 0),
                   tabs: [
-                     PlutoMenuBarDemo(Email: Email, Password: Password, username: username, mobile: mobile, Gender: Gender, dob: dob, id: id, Adress: Adress, nationalid: nationalid),
+                    PlutoMenuBarDemo(
+                        Email: Email,
+                        Password: Password,
+                        username: username,
+                        mobile: mobile,
+                        Gender: Gender,
+                        dob: dob,
+                        id: id,
+                        Adress: Adress,
+                        nationalid: nationalid),
                   ],
                 ),
                 SizedBox(
@@ -213,235 +281,264 @@ class _certificateState extends State<certificate> {
                           fontSize: 30,
                           fontWeight: FontWeight.bold)),
                 ),
-                Column(
-                  children: <Widget>[
-                    SizedBox(
-                      height: 30,
-                    ),
-                    Center(
-                        child: Container(
-                      margin: EdgeInsets.only(left: 15),
-                      child: Text('Account number',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 16)),
-                    )),
-                    Container(
-                      margin: EdgeInsets.only(left: 550, right: 550, top: 15),
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(10),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black26,
-                              blurRadius: 6,
-                            ),
-                          ]),
-                      child: TextField(
-                        controller: accountnumber,
-                        textAlign: TextAlign.center,
-                        keyboardType: TextInputType.number,
-                        cursorColor: Colors.black,
-                        onChanged: (value) {
-                          setState(() {});
-                        },
-                        decoration: InputDecoration(
-                          focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.black)),
-                          focusColor: Colors.black,
-                          labelStyle: TextStyle(color: Colors.black),
-                        ),
+                Form(
+                  key:formkey,
+                  child: Column(
+                    children: <Widget>[
+                      SizedBox(
+                        height: 30,
                       ),
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Divider(
-                        thickness: 4, height: 40, endIndent: 100, indent: 100),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Center(
-                      child: Container(
-                        padding: EdgeInsets.only(left: 15),
-                        child: Text('Select product',
+                      Center(
+                          child: Container(
+                        margin: EdgeInsets.only(left: 15),
+                        child: Text('Account number',
                             style: TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.bold)),
-                      ),
-                    ),
-                    SizedBox(height: 10),
-                    Row(
-                      children: [
-                        Container(
-                          child: DropdownButton(
-                            value: dropdown,
-                            borderRadius: BorderRadius.circular(15),
-                            icon: const Icon(Icons.arrow_drop_down_sharp),
-                            items: items.map((String items) {
-                              return DropdownMenuItem(
-                                value: items,
-                                child: Text(items),
-                              );
-                            }).toList(),
-                            onChanged: (String? newvalue) {
-                              setState(() {
-                                dropdown = newvalue!;
-                              });
-                            },
+                                fontWeight: FontWeight.bold, fontSize: 16)),
+                      )),
+                      Container(
+                        margin: EdgeInsets.only(left: 550, right: 550, top: 15),
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(10),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black26,
+                                blurRadius: 6,
+                              ),
+                            ]),
+                        child: TextFormField(
+                          controller: accountnumber,
+                          validator: (value) {
+                            if (value!.isEmpty ||
+                                !RegExp(r'^[1-9][0-9]{15}$').hasMatch(value!)) {
+                              return " Account number must be 16 number";
+                            } else
+                              return null;
+                          },
+                          onFieldSubmitted: (value) {
+                            getUserData(accountnumber.text);
+                            getData(accountnumber.text);
+                            showAlertDialog1(context, " User name : $unamee \n National id : $iddd");
+
+                          },
+
+                          textAlign: TextAlign.center,
+                          keyboardType: TextInputType.number,
+                          cursorColor: Colors.black,
+                          onChanged: (value) {
+                            setState(() {});
+                          },
+                          decoration: InputDecoration(
+                            focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: Colors.black)),
+                            focusColor: Colors.black,
+                            labelStyle: TextStyle(color: Colors.black),
                           ),
-                        )
-                      ],
-                      mainAxisAlignment: MainAxisAlignment.center,
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Divider(
-                        thickness: 4, height: 40, endIndent: 100, indent: 100),
-                    SizedBox(height: 10),
-                    Center(
-                        child: Container(
-                      margin: EdgeInsets.only(left: 15),
-                      child: Text('Amount',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 16)),
-                    )),
-                    Container(
-                      margin: EdgeInsets.only(left: 550, right: 550, top: 15),
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(10),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black26,
-                              blurRadius: 6,
-                            ),
-                          ]),
-                      child: TextField(
-                        controller: amount,
-                        textAlign: TextAlign.center,
-                        keyboardType: TextInputType.number,
-                        cursorColor: Colors.black,
-                        onChanged: (value) {
-                          setState(() {});
-                        },
-                        decoration: InputDecoration(
-                          focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.black)),
-                          focusColor: Colors.black,
-                          labelStyle: TextStyle(color: Colors.black),
                         ),
                       ),
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Divider(
-                        thickness: 4, height: 40, endIndent: 100, indent: 100),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Center(
-                      child: Row(
-                        children: <Widget>[
-                          SizedBox(width: 15),
-                          Text('Start date',
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Divider(
+                          thickness: 4, height: 40, endIndent: 100, indent: 100),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Center(
+                        child: Container(
+                          padding: EdgeInsets.only(left: 15),
+                          child: Text('Select product',
                               style: TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.bold)),
-                          SizedBox(width: 135),
-                          IconButton(
-                              onPressed: () {
-                                selectinDate(context);
+                                  fontSize: 18, fontWeight: FontWeight.bold)),
+                        ),
+                      ),
+                      SizedBox(height: 10),
+                      Row(
+                        children: [
+                          Container(
+                            child: DropdownButton(
+                              value: dropdown,
+                              borderRadius: BorderRadius.circular(15),
+                              icon: const Icon(Icons.arrow_drop_down_sharp),
+                              items: items.map((String items) {
+                                return DropdownMenuItem(
+                                  value: items,
+                                  child: Text(items),
+                                );
+                              }).toList(),
+                              onChanged: (String? newvalue) {
+                                setState(() {
+                                  dropdown = newvalue!;
+                                });
                               },
-                              icon: Icon(Icons.date_range)),
-                          Text(
-                            ('${date1.year} - ${date1.month} - ${date1.day}')
-                                .toString(),
-                            style: TextStyle(fontSize: 16),
+                            ),
                           )
                         ],
                         mainAxisAlignment: MainAxisAlignment.center,
                       ),
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Divider(
-                        thickness: 4, height: 40, endIndent: 100, indent: 100),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Row(
-                      children: <Widget>[
-                        Container(
-                          padding: EdgeInsets.only(left: 15, top: 20),
-                          child: Text(
-                              'I have read and agree to the terms\nof FNB services',
-                              style: TextStyle(fontSize: 15)),
-                        ),
-                        SizedBox(
-                          width: 70,
-                        ),
-                        Switch(
-                          value: _swVal,
-                          onChanged: _onChange,
-                          activeColor: Color(0xff8d0000),
-                        ),
-                      ],
-                      mainAxisAlignment: MainAxisAlignment.center,
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    TextButton(
-                      child: const Text(
-                        'Show terms',
-                        style:
-                            TextStyle(fontSize: 15, color: Color(0xff8d0000)),
+                      SizedBox(
+                        height: 5,
                       ),
-                      onPressed: () {
-                        showAlertDialog(context);
-                      },
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Container(
-                        margin: EdgeInsets.symmetric(vertical: 12),
-                        width: size.width * 0.2,
-                        child: ClipRRect(
-                          child: SizedBox(
-                              height: 50,
-                              child: ElevatedButton(
-                                // padding: EdgeInsets.symmetric(vertical: 18,horizontal: 38),
-                                // color: Colors.deepOrange,
-                                onPressed: () async {
-                                  SendData();
+                      Divider(
+                          thickness: 4, height: 40, endIndent: 100, indent: 100),
+                      SizedBox(height: 10),
+                      Center(
+                          child: Container(
+                        margin: EdgeInsets.only(left: 15),
+                        child: Text('Amount',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 16)),
+                      )),
+                      Container(
+                        margin: EdgeInsets.only(left: 550, right: 550, top: 15),
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(10),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black26,
+                                blurRadius: 6,
+                              ),
+                            ]),
+                        child: TextFormField(
+                          controller: amount,
+                          validator: (value) {
+                            if (value!.isEmpty ||
+                                !RegExp(r'^[1-9][0-9]{3,6}$').hasMatch(value!)) {
+                              return " Max range 6 digits ";
+                            } else
+                              return null;
+                          },
+                          textAlign: TextAlign.center,
+                          keyboardType: TextInputType.number,
+                          cursorColor: Colors.black,
+                          onChanged: (value) {
+                            setState(() {});
+                          },
+                          decoration: InputDecoration(
+                            focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: Colors.black)),
+                            focusColor: Colors.black,
+                            labelStyle: TextStyle(color: Colors.black),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Divider(
+                          thickness: 4, height: 40, endIndent: 100, indent: 100),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Center(
+                        child: Row(
+                          children: <Widget>[
+                            SizedBox(width: 15),
+                            Text('Start date',
+                                style: TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.bold)),
+                            SizedBox(width: 135),
+                            IconButton(
+                                onPressed: () {
+                                  selectinDate(context);
                                 },
-                                child: Text(
-                                  'Apply',
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 18),
-                                ),
-                                style: ButtonStyle(
-                                    backgroundColor: MaterialStateProperty.all(
-                                        Color(0xff8d0000)),
-                                    shape: MaterialStateProperty.all<
-                                        RoundedRectangleBorder>(
-                                      RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(25),
-                                          side: BorderSide(
-                                              color: Color(0xff8d0000))),
-                                    )),
-                              )),
-                        )),
-                    SizedBox(
-                      height: 20,
-                    ),
-                  ],
+                                icon: Icon(Icons.date_range)),
+                            Text(
+                              ('${date1.year} - ${date1.month} - ${date1.day}')
+                                  .toString(),
+                              style: TextStyle(fontSize: 16),
+                            )
+                          ],
+                          mainAxisAlignment: MainAxisAlignment.center,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Divider(
+                          thickness: 4, height: 40, endIndent: 100, indent: 100),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Row(
+                        children: <Widget>[
+                          Container(
+                            padding: EdgeInsets.only(left: 15, top: 20),
+                            child: Text(
+                                'I have read and agree to the terms\nof FNB services',
+                                style: TextStyle(fontSize: 15)),
+                          ),
+                          SizedBox(
+                            width: 70,
+                          ),
+                          Switch(
+                            value: _swVal,
+                            onChanged: _onChange,
+                            activeColor: Color(0xff8d0000),
+                          ),
+                        ],
+                        mainAxisAlignment: MainAxisAlignment.center,
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      TextButton(
+                        child: const Text(
+                          'Show terms',
+                          style:
+                              TextStyle(fontSize: 15, color: Color(0xff8d0000)),
+                        ),
+                        onPressed: () {
+                          showAlertDialog(context);
+                        },
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Container(
+                          margin: EdgeInsets.symmetric(vertical: 12),
+                          width: size.width * 0.2,
+                          child: ClipRRect(
+                            child: SizedBox(
+                                height: 50,
+                                child: ElevatedButton(
+                                  // padding: EdgeInsets.symmetric(vertical: 18,horizontal: 38),
+                                  // color: Colors.deepOrange,
+                                  onPressed: () async {
+
+                                    if (formkey.currentState!.validate()) {
+                                    if (_swVal == true) {
+                                      SendData();
+                                    } else {
+                                      showAlertDialog1(context, " Must Check required information ");
+                                    }}
+                                  },
+                                  child: Text(
+                                    'Apply',
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 18),
+                                  ),
+                                  style: ButtonStyle(
+                                      backgroundColor: MaterialStateProperty.all(
+                                          Color(0xff8d0000)),
+                                      shape: MaterialStateProperty.all<
+                                          RoundedRectangleBorder>(
+                                        RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(25),
+                                            side: BorderSide(
+                                                color: Color(0xff8d0000))),
+                                      )),
+                                )),
+                          )),
+                      SizedBox(
+                        height: 20,
+                      ),
+                    ],
+                  ),
                 ),
               ]),
             )));
   }
-
 }

@@ -139,7 +139,7 @@ class _MyAppState extends State<wmessage> {
 
   void sendSms() async {
     String accountSid = 'ACfd5f299f4d008b84af425e02265f84ac';
-    String authToken = 'a567001e124ed724746edbbfee6c544c';
+    String authToken = '723787d7caaadf7dde3c8971cd2d41e9';
     String fromNumber = '+12707137281';
     String toNumber = mobilee.text;
     String message = dropdown;
@@ -204,7 +204,7 @@ class _MyAppState extends State<wmessage> {
                             image: AssetImage("images/logo3.jpeg"),
                             height: 150,
                           ),
-                          SizedBox(width: 1110),
+                          SizedBox(width: 1300),
                           IconButton(
                               onPressed: () {
                                 Navigator.push(
@@ -220,27 +220,6 @@ class _MyAppState extends State<wmessage> {
                               )),
                           SizedBox(
                             width: 10,
-                          ),
-                          SizedBox(
-                            height: 30,
-                            width: 200,
-                            child: TextField(
-                              cursorColor: Colors.white,
-                              onChanged: (value) {
-                                setState(() {});
-                              },
-                              decoration: InputDecoration(
-                                  border: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                          width: 1, color: Colors.white)),
-                                  enabledBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                          color: Colors.white, width: 2)),
-                                  focusColor: Colors.white,
-                                  labelStyle: TextStyle(color: Colors.white),
-                                  labelText: "Search"),
-                              style: TextStyle(fontSize: 16, color: Colors.white),
-                            ),
                           ),
                         ])),
                   ),
@@ -410,35 +389,6 @@ class _MyAppState extends State<wmessage> {
                                         },
                                       ),
                                     ),
-                                  ),
-                                  Row(
-                                    children: <Widget>[
-                                      SizedBox(
-                                        height: 50,
-                                      ),
-                                      Container(
-                                        child: Text(
-                                            " Send message to All ",
-                                            style: TextStyle(
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.bold,
-                                            )),
-                                      ),
-                                      SizedBox(
-                                        width: 30,
-                                      ),
-                                      Checkbox(
-                                        checkColor: Colors.white,
-                                        fillColor:
-                                        MaterialStateProperty.resolveWith(getColor),
-                                        value: isChecked,
-                                        onChanged: (bool? value) {
-                                          setState(() {
-                                            isChecked = value!;
-                                          });
-                                        },
-                                      )
-                                    ],mainAxisAlignment: MainAxisAlignment.center,
                                   ),
                                 ],
                               ),

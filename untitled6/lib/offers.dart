@@ -133,7 +133,7 @@ class _MyAppState extends State<offermessages> {
 
   void sendSms() async {
     String accountSid = 'AC603d9b2c54a05e4c59b17c44fc2c6d84';
-    String authToken = 'a318b698f44d4e4e1d299cd9f8584f32';
+    String authToken = 'a68c79b757e8be867e36517a2f3bc939';
     String fromNumber = '+12705142581';
     String toNumber = mobilee.text;
     String message = dropdown;
@@ -376,35 +376,6 @@ class _MyAppState extends State<offermessages> {
                                         },
                                       ),
                                     ),
-                                  ),
-                                  Row(
-                                    children: <Widget>[
-                                      SizedBox(
-                                        height: 50,
-                                      ),
-                                      Container(
-                                        child: Text(
-                                            " Send message to All ",
-                                            style: TextStyle(
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.bold,
-                                            )),
-                                      ),
-                                      SizedBox(
-                                        width: 30,
-                                      ),
-                                      Checkbox(
-                                        checkColor: Colors.white,
-                                        fillColor:
-                                        MaterialStateProperty.resolveWith(getColor),
-                                        value: isChecked,
-                                        onChanged: (bool? value) {
-                                          setState(() {
-                                            isChecked = value!;
-                                          });
-                                        },
-                                      )
-                                    ],mainAxisAlignment: MainAxisAlignment.center,
                                   ),
                                 ],
                               ),

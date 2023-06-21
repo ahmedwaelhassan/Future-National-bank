@@ -1,11 +1,9 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:untitled6/Certificate.dart';
 import 'package:untitled6/Deposit.dart';
 import 'package:untitled6/Exchange%20Rate.dart';
 import 'package:untitled6/Get%20Card.dart';
-import 'package:untitled6/Last%20Transaction.dart';
 import 'package:untitled6/Loan%20Amount.dart';
 import 'package:untitled6/Login.dart';
 import 'package:untitled6/My%20Profile.dart';
@@ -22,10 +20,12 @@ import 'Currency.dart';
 import 'Delete Acc.dart';
 import 'Installment.dart';
 import 'Loan.dart';
+import 'Transactions.dart';
 import 'Transfer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:pluto_menu_bar/pluto_menu_bar.dart';
 import 'package:http/http.dart' as http;
+import 'nlp.dart';
 
 class PlutoMenuBarDemo extends StatefulWidget {
   var Email="";
@@ -216,6 +216,11 @@ class _PlutoMenuBarDemoState extends State<PlutoMenuBarDemo> {
             title: ' Transactions ',
             icon: Icons.transfer_within_a_station,
             onTap: () => Navigator.push(context,MaterialPageRoute(builder: (context) =>LastTransaction(Email: Email, Password: Password, username: username, mobile: mobile, Gender: Gender, dob: dob, id: id, Adress: Adress, nationalid: nationalid))),
+          ),
+          PlutoMenuItem(
+            title: ' Feedbacks ',
+            icon: Icons.feedback_outlined,
+            onTap: () => Navigator.push(context,MaterialPageRoute(builder: (context) => ComplaintsAnalysis(Email: Email, Password: Password, username: username, mobile: mobile, Gender: Gender, dob: dob, id: id, Adress: Adress, nationalid: nationalid),)),
           ),
           PlutoMenuItem(
             title: ' My Profile ',

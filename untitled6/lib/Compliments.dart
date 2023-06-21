@@ -128,12 +128,12 @@ class _MyAppState extends State<Compliment> {
     }
   }
 
-  // ziad
+  // dody
 
   void sendSms() async {
-    String accountSid = 'ACfd5f299f4d008b84af425e02265f84ac';
-    String authToken = 'a567001e124ed724746edbbfee6c544c';
-    String fromNumber = '+12707137281';
+    String accountSid = 'AC93c276f99233cbd1099bd64d88ab3aa4';
+    String authToken = '1ffdd65f1455ea03fcb28281ba19c0cc';
+    String fromNumber = '+13614541272';
     String toNumber = mobilee.text;
     String message = dropdown;
     String uri = 'https://api.twilio.com/2010-04-01/Accounts/$accountSid/Messages.json';
@@ -377,35 +377,6 @@ class _MyAppState extends State<Compliment> {
                                         },
                                       ),
                                     ),
-                                  ),
-                                  Row(
-                                    children: <Widget>[
-                                      SizedBox(
-                                        height: 50,
-                                      ),
-                                      Container(
-                                        child: Text(
-                                            " Send message to All ",
-                                            style: TextStyle(
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.bold,
-                                            )),
-                                      ),
-                                      SizedBox(
-                                        width: 30,
-                                      ),
-                                      Checkbox(
-                                        checkColor: Colors.white,
-                                        fillColor:
-                                        MaterialStateProperty.resolveWith(getColor),
-                                        value: isChecked,
-                                        onChanged: (bool? value) {
-                                          setState(() {
-                                            isChecked = value!;
-                                          });
-                                        },
-                                      )
-                                    ],mainAxisAlignment: MainAxisAlignment.center,
                                   ),
                                 ],
                               ),

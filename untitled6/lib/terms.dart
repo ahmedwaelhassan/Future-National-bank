@@ -26,5 +26,28 @@ void showAlertDialog(BuildContext context){
         return alertDialog;
       }
   );
-
+}
+void showAlertDialog1( BuildContext context, var text) {
+  var alertDialog = AlertDialog(
+    content: Text(
+      text,
+      style: TextStyle(color: Color(0xff8d0000), fontSize: 30),
+    ),
+    actions: [
+      ElevatedButton(
+          onPressed: () {},
+          child: Text(
+            'Ok',
+          ),
+          style: ButtonStyle(
+            iconSize: MaterialStatePropertyAll(20),
+            backgroundColor: MaterialStatePropertyAll(Color(0xff8d0000)),
+          )),
+    ],
+  );
+  showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alertDialog;
+      });
 }

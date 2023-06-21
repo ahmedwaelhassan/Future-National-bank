@@ -1,3 +1,4 @@
+/*
 import 'package:flutter/material.dart';
 import '../services/api_client.dart';
 
@@ -169,9 +170,9 @@ class _exchangeratesState extends State<exchangerates> {
                     padding: EdgeInsets.only(left: 40,right: 40),
                     child:TextField(
                       onSubmitted: (value) async{
-                        rate1 = await client.getRate(from, to1);
-                        rate2 = await client.getRate(from, to2);
-                        rate3 = await client.getRate(from, to3);
+                        rate1 = (await client.getRate(from, to1)) as double;
+                        rate2 = (await client.getRate(from, to2)) as double;
+                        rate3 = (await client.getRate(from, to3)) as double;
                         rate4 = await client.getRate(from, to4);
                         rate5 = await client.getRate(from, to5);
                         rate6 = await client.getRate(from, to6);
@@ -259,7 +260,8 @@ class _exchangeratesState extends State<exchangerates> {
                     ),),
 
                   SizedBox(height: 15,),
-                  /*  Container(
+                  */
+/*  Container(
                       child: Text("From",style: TextStyle(color: Colors.black,fontSize: 16,)),
                     ),
 
@@ -270,7 +272,8 @@ class _exchangeratesState extends State<exchangerates> {
                           from = val;
                         });
                       }),
-                    ),*/
+                    ),*//*
+
 
 
 
@@ -401,4 +404,4 @@ class _exchangeratesState extends State<exchangerates> {
       ),
     );
   }
-}
+}*/

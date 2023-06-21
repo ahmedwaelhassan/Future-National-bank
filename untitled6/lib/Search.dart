@@ -1,13 +1,22 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
+import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:untitled6/Bar.dart';
 import 'package:http/http.dart' as http;
-
-import 'Create Account.dart';
+import 'package:untitled6/terms.dart';
 import 'Crypto/crypto.dart';
+import 'package:signature/signature.dart';
+import 'package:untitled6/home.dart';
+import 'package:path/path.dart' as path;
+import 'dart:developer';
+
+void performHotReload() {
+  log('Performing hot reload');
+  window.scheduleFrame();
+}
 
 class Search extends StatefulWidget {
   var Email = "";
@@ -138,7 +147,8 @@ Future getUserData(String accnum) async {
   final key = "2f7b4e8d71c4a00f2a3f4c175a8a4e6c";
   final aes = Aes(key);
 
-  final encAcc = base64Encode(aes.encrypt(Uint8List.fromList(utf8.encode(accnum))));
+  final encAcc =
+      base64Encode(aes.encrypt(Uint8List.fromList(utf8.encode(accnum))));
 
   var response = await http.post(url, body: {
     "accountnumber": encAcc,
@@ -182,10 +192,10 @@ Future<Null> selectTime(BuildContext context) async {
 }
 
 Future<void> getData(String accnum) async {
-
   final key = "2f7b4e8d71c4a00f2a3f4c175a8a4e6c";
   final aes = Aes(key);
-  final decryptedaccnum = utf8.decode(aes.decrypt(base64Decode(data[0]["accountnumber"])));
+  final decryptedaccnum =
+      utf8.decode(aes.decrypt(base64Decode(data[0]["accountnumber"])));
 
   name = data[0]["name"];
   dob1 = data[0]["dob"];
@@ -213,7 +223,8 @@ Future Delete(String accnum) async {
   final key = "2f7b4e8d71c4a00f2a3f4c175a8a4e6c";
   final aes = Aes(key);
 
-  final encAcc = base64Encode(aes.encrypt(Uint8List.fromList(utf8.encode(accnum))));
+  final encAcc =
+      base64Encode(aes.encrypt(Uint8List.fromList(utf8.encode(accnum))));
 
   var response = await http.post(url, body: {
     "accountnumber": encAcc,
@@ -228,10 +239,10 @@ Future Delete(String accnum) async {
 }
 
 Future<void> delete(String accnum) async {
-
   final key = "2f7b4e8d71c4a00f2a3f4c175a8a4e6c";
   final aes = Aes(key);
-  final decryptedaccnum = utf8.decode(aes.decrypt(base64Decode(data[0]["accountnumber"])));
+  final decryptedaccnum =
+      utf8.decode(aes.decrypt(base64Decode(data[0]["accountnumber"])));
 
   name = data[0]["name"];
   dob1 = data[0]["dob"];
@@ -260,7 +271,8 @@ Future Updatedata(var accnum) async {
   final key = "2f7b4e8d71c4a00f2a3f4c175a8a4e6c";
   final aes = Aes(key);
 
-  final encAcc = base64Encode(aes.encrypt(Uint8List.fromList(utf8.encode(accnum))));
+  final encAcc =
+      base64Encode(aes.encrypt(Uint8List.fromList(utf8.encode(accnum))));
 
   final response = await http.post(url, body: {
     "accountnumber": encAcc,
@@ -335,29 +347,41 @@ class _MyAppState extends State<Search> {
                         image: AssetImage("images/logo3.jpeg"),
                         height: 150,
                       ),
-                      SizedBox(width: 1300),
-                      IconButton(
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => Search(
-                                      Email: Email,
-                                      Password: Password,
-                                      username: username,
-                                      mobile: mobile,
-                                      Gender: Gender,
-                                      dob: dob,
-                                      id: id,
-                                      Adress: Adress,
-                                      nationalid: nationalid),
-                                ));
-                          },
-                          icon: Icon(
-                            Icons.person_search_rounded,
-                            color: Colors.white,
-                            size: 30,
-                          )),
+                          SizedBox(width: 1250),
+                          IconButton(
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => Search(
+                                          Email: Email,
+                                          Password: Password,
+                                          username: username,
+                                          mobile: mobile,
+                                          Gender: Gender,
+                                          dob: dob,
+                                          id: id,
+                                          Adress: Adress,
+                                          nationalid: nationalid),
+                                    ));
+                              },
+                              icon: Icon(
+                                Icons.person_search_rounded,
+                                color: Colors.white,
+                                size: 30,
+                              )),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          IconButton(
+                              onPressed: () {
+                                performHotReload();
+                              },
+                              icon: Icon(
+                                Icons.restart_alt_rounded,
+                                color: Colors.white,
+                                size: 30,
+                              )),
                       SizedBox(
                         width: 10,
                       ),
@@ -411,7 +435,6 @@ class _MyAppState extends State<Search> {
                               child: TextField(
                                 onSubmitted: (value) {
                                   setState(() {
-
                                     getUserData(search.text);
                                     getData(search.text);
                                     cfn.text = name;
@@ -1083,8 +1106,16 @@ class _MyAppState extends State<Search> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) =>
-                                            ImageFolderScreen()));
+                                        builder: (context) => ImageFolderScreen(
+                                            Email: Email,
+                                            Password: Password,
+                                            username: username,
+                                            mobile: mobile,
+                                            Gender: Gender,
+                                            dob: dob,
+                                            id: id,
+                                            Adress: Adress,
+                                            nationalid: nationalid)));
                               },
                               icon: Icon(Icons.paste_outlined),
                               iconSize: 30,
@@ -1184,6 +1215,8 @@ class _MyAppState extends State<Search> {
                                       nationalid1.text = '';
                                       accnum.text = '';
                                       Genderr = '';
+                                      genderr.text = "";
+                                      balance.text = '';
                                       balance.text = '';
                                       showAlertDialog(
                                           context, "Account has been Deleted");
@@ -1277,11 +1310,64 @@ class _MyAppState extends State<Search> {
 }
 
 class ImageFolderScreen extends StatefulWidget {
+  var Email = "";
+  var Password = "";
+  var username = "";
+  var mobile = "";
+  var Gender = "";
+  var dob = "";
+  var id = "";
+  var Adress = "";
+  var nationalid = "";
+
+  ImageFolderScreen({
+    required this.Email,
+    required this.Password,
+    required this.username,
+    required this.mobile,
+    required this.Gender,
+    required this.dob,
+    required this.id,
+    required this.Adress,
+    required this.nationalid,
+  });
+
   @override
-  _ImageFolderScreenState createState() => _ImageFolderScreenState();
+  _ImageFolderScreenState createState() => _ImageFolderScreenState(
+      Email: Email,
+      Password: Password,
+      username: username,
+      mobile: mobile,
+      Gender: Gender,
+      dob: dob,
+      id: id,
+      Adress: Adress,
+      nationalid: nationalid);
 }
 
 class _ImageFolderScreenState extends State<ImageFolderScreen> {
+  var Email = "";
+  var Password = "";
+  var username = "";
+  var mobile = "";
+  var Gender = "";
+  var dob = "";
+  var id = "";
+  var Adress = "";
+  var nationalid = "";
+
+  _ImageFolderScreenState({
+    required this.Email,
+    required this.Password,
+    required this.username,
+    required this.mobile,
+    required this.Gender,
+    required this.dob,
+    required this.id,
+    required this.Adress,
+    required this.nationalid,
+  });
+
   List<File> _images = [];
 
   void _getImages() {
@@ -1301,6 +1387,28 @@ class _ImageFolderScreenState extends State<ImageFolderScreen> {
     setState(() {});
   }
 
+  Future<void> deleteImage(String folderPath, String imageName) async {
+    final allowedExtensions = ['.jpg', '.jpeg', '.png', '.gif'];
+    // Check if the file is an image file
+    final extension =
+        imageName.toLowerCase().substring(imageName.lastIndexOf('.'));
+    if (!allowedExtensions.contains(extension)) {
+      print('$imageName is not an image file.');
+      return;
+    }
+    final file = File('$folderPath/$imageName');
+    try {
+      if (await file.exists()) {
+        await file.delete();
+        print('$imageName has been deleted from $folderPath.');
+      } else {
+        print('$imageName does not exist in $folderPath.');
+      }
+    } catch (e) {
+      print('Error deleting $imageName: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -1310,53 +1418,381 @@ class _ImageFolderScreenState extends State<ImageFolderScreen> {
           padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
           child: Container(
               child: Row(children: [
-                SizedBox(
-                  width: 50,
-                ),
-                Image(
-                  image: AssetImage("images/logo3.jpeg"),
-                  height: 150,
-                ),
-                SizedBox(width: 455),
-                Text(" Signature Image",style: TextStyle(fontSize: 32,color: Colors.white),)
-
-              ])),
+            SizedBox(
+              width: 50,
+            ),
+            Image(
+              image: AssetImage("images/logo3.jpeg"),
+              height: 150,
+            ),
+            SizedBox(width: 455),
+            Text(
+              " Signature Image",
+              style: TextStyle(fontSize: 32, color: Colors.white),
+            )
+          ])),
         ),
         backgroundColor: Color(0xff8d0000),
       ),
       body: Column(
         children: <Widget>[
-      Container(
-      padding: EdgeInsets.only(left: 50,top: 50),
-      child: ElevatedButton(
-        onPressed:  _getImages,
-        child: Text(
-          'Show image',
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 18,
+          Container(
+            padding: EdgeInsets.only(left: 50, top: 50),
+            child: ElevatedButton(
+              onPressed: _getImages,
+              child: Text(
+                ' Show signature ',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 18,
+                ),
+              ),
+              style: ElevatedButton.styleFrom(
+                padding: EdgeInsets.fromLTRB(50, 20, 50, 20),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+                    side: BorderSide(
+                        style: BorderStyle.solid,
+                        width: 1,
+                        color: Colors.black)),
+                primary: Color(0xff8d0000),
+              ),
+            ),
           ),
-        ),
-        style: ElevatedButton.styleFrom(
-          padding: EdgeInsets.fromLTRB(50, 20, 50, 20),
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
-              side: BorderSide(
-                  style: BorderStyle.solid,
-                  width: 1,
-                  color: Colors.black)),
-          primary: Color(0xff8d0000),
-        ),
-      ),
-    ),
           Expanded(
             child: GridView.count(
               crossAxisCount: 1,
               children: _images.map((image) => Image.file(image)).toList(),
             ),
           ),
+          Row(
+            children: [
+              /*Container(
+                child: ElevatedButton(
+                  onPressed: () {
+                    deleteImage('C:\\Users\\green\\StudioProjects\\untitled6\\signature', '${search.text}.png');
+                    showAlertDialog1(context, " Signature has been deleted ");
+                  },
+                  child: Text(
+                    'Delete',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                    ),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    padding:
+                    EdgeInsets.fromLTRB(50, 20, 50, 20),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30),
+                        side: BorderSide(
+                            style: BorderStyle.solid,
+                            width: 1,
+                            color: Colors.black)),
+                    primary: Color(0xff8d0000),
+                  ),
+                ),
+              ),*/
+              /*SizedBox(
+                width: 25,
+              ),*/
+              ElevatedButton(
+                onPressed: () {
+                  deleteImage(
+                      'C:\\Users\\green\\StudioProjects\\untitled6\\signature',
+                      '${search.text}.png');
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => Signatureeee(
+                            Email: Email,
+                            Password: Password,
+                            username: username,
+                            mobile: mobile,
+                            Gender: Gender,
+                            dob: dob,
+                            id: id,
+                            Adress: Adress,
+                            nationalid: nationalid),
+                      ));
+                },
+                child: Text('Update',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 18,
+                    ),
+                    textAlign: TextAlign.center),
+                style: ElevatedButton.styleFrom(
+                  padding: EdgeInsets.fromLTRB(50, 20, 50, 20),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+                      side: BorderSide(
+                          style: BorderStyle.solid,
+                          width: 1,
+                          color: Colors.black)),
+                  primary: Colors.white70,
+                ),
+              ),
+              SizedBox(
+                height: 100,
+              )
+            ],
+            mainAxisAlignment: MainAxisAlignment.center,
+          )
         ],
       ),
     );
+  }
+}
+
+class Signatureeee extends StatefulWidget {
+  var Email = "";
+  var Password = "";
+  var username = "";
+  var mobile = "";
+  var Gender = "";
+  var dob = "";
+  var id = "";
+  var Adress = "";
+  var nationalid = "";
+
+  Signatureeee({
+    required this.Email,
+    required this.Password,
+    required this.username,
+    required this.mobile,
+    required this.Gender,
+    required this.dob,
+    required this.id,
+    required this.Adress,
+    required this.nationalid,
+  });
+
+  @override
+  State<Signatureeee> createState() => _MyHomePageState(
+      Email: Email,
+      Password: Password,
+      username: username,
+      mobile: mobile,
+      Gender: Gender,
+      dob: dob,
+      id: id,
+      Adress: Adress,
+      nationalid: nationalid);
+}
+
+var pic;
+
+class _MyHomePageState extends State<Signatureeee> {
+  var Email = "";
+  var Password = "";
+  var username = "";
+  var mobile = "";
+  var Gender = "";
+  var dob = "";
+  var id = "";
+  var Adress = "";
+  var nationalid = "";
+
+  _MyHomePageState({
+    required this.Email,
+    required this.Password,
+    required this.username,
+    required this.mobile,
+    required this.Gender,
+    required this.dob,
+    required this.id,
+    required this.Adress,
+    required this.nationalid,
+  });
+
+  Uint8List? exportedImage;
+  SignatureController controller = SignatureController(
+    penStrokeWidth: 5,
+    penColor: Colors.black,
+    exportBackgroundColor: Colors.white70,
+  );
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        toolbarHeight: 70,
+        flexibleSpace: Padding(
+          padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+          child: Container(
+              child: Row(children: [
+            SizedBox(
+              width: 50,
+            ),
+            Image(
+              image: AssetImage("images/logo3.jpeg"),
+              height: 150,
+            ),
+            SizedBox(width: 500),
+            Text(
+              "Signature",
+              style: TextStyle(fontSize: 32, color: Colors.white),
+            ),
+            SizedBox(width: 600),
+            IconButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => Search(
+                            Email: Email,
+                            Password: Password,
+                            username: username,
+                            mobile: mobile,
+                            Gender: Gender,
+                            dob: dob,
+                            id: id,
+                            Adress: Adress,
+                            nationalid: nationalid),
+                      ));
+                },
+                icon: Icon(
+                  Icons.person_search_rounded,
+                  color: Colors.white,
+                  size: 30,
+                )),
+            SizedBox(
+              width: 10,
+            ),
+          ])),
+        ),
+        backgroundColor: Color(0xff8d0000),
+      ),
+      body: Center(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Signature(
+              controller: controller,
+              width: 500,
+              height: 300,
+              backgroundColor: Colors.white,
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Padding(
+                    padding: EdgeInsets.all(10),
+                    child: ElevatedButton(
+                        onPressed: () async {
+                          exportedImage = await controller.toPngBytes();
+                          pic = exportedImage;
+                          print(pic);
+                          //API
+                          setState(() {});
+                        },
+                        child: const Text(
+                          "Show",
+                          style: TextStyle(fontSize: 20),
+                        ),
+                        style: ButtonStyle(
+                            backgroundColor:
+                                MaterialStateProperty.all<Color>(Colors.red),
+                            shape: MaterialStateProperty.all<
+                                    RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(18.0),
+                                    side: BorderSide(color: Colors.red)))))),
+                Padding(
+                    padding: EdgeInsets.all(5),
+                    child: ElevatedButton(
+                        onPressed: () {
+                          controller.clear();
+                        },
+                        child: const Text(
+                          "Clear",
+                          style: TextStyle(fontSize: 20),
+                        ),
+                        style: ButtonStyle(
+                            backgroundColor:
+                                MaterialStateProperty.all<Color>(Colors.blue),
+                            shape: MaterialStateProperty.all<
+                                    RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(18.0),
+                                    side:
+                                        BorderSide(color: Colors.white70)))))),
+                Padding(
+                    padding: EdgeInsets.all(5),
+                    child: ElevatedButton(
+                        onPressed: () async {
+                          exportedImage = await controller.toPngBytes();
+                          pic = exportedImage;
+                          print(pic);
+                          // Save the image to a file
+                          final fileName = search.text.isNotEmpty
+                              ? search.text
+                              : 'signature';
+                          saveImage(exportedImage!, fileName);
+
+                          showAlertDialog1(
+                              context, " Signature has been updated ");
+
+                          //API
+                          setState(() {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => home(
+                                      Email: Email,
+                                      Password: Password,
+                                      username: username,
+                                      mobile: mobile,
+                                      Gender: Gender,
+                                      dob: dob,
+                                      id: id,
+                                      Adress: Adress,
+                                      nationalid: nationalid),
+                                ));
+                          });
+                        },
+                        child: const Text(
+                          "Save",
+                          style: TextStyle(fontSize: 20),
+                        ),
+                        style: ButtonStyle(
+                            backgroundColor:
+                                MaterialStateProperty.all<Color>(Colors.blue),
+                            shape: MaterialStateProperty.all<
+                                    RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(18.0),
+                                    side:
+                                        BorderSide(color: Colors.white70)))))),
+              ],
+            ),
+            SizedBox(
+              height: 5,
+            ),
+            if (exportedImage != null)
+              Image.memory(
+                exportedImage!,
+                width: 700,
+                height: 250,
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void saveImage(List<int> imageData, String fileName) async {
+    final directory = Directory(
+        'C:\\Users\\green\\StudioProjects\\untitled6\\signature'); // Change this to the directory where you want to save the image
+    final filePath = path.join(directory.path, '${search.text}.png');
+    final file = File(filePath);
+    await file.writeAsBytes(imageData);
+    print('Image saved to: $filePath');
   }
 }

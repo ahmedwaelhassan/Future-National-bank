@@ -136,7 +136,7 @@ class _MyAppState extends State<cmessage> {
 
      void sendSms() async {
     String accountSid = 'AC7cad2e628cef2571f0ac470e9d09c80b';
-    String authToken = '056a3abe94db92a9ab0f96322ca26745';
+    String authToken = 'd1fdf51e9d723375567a4d7749654dc6';
     String fromNumber = '+16812069396';
     String toNumber = mobilee.text;
     String message = dropdown;
@@ -382,35 +382,6 @@ class _MyAppState extends State<cmessage> {
                               ),
                             ),
                           ),
-                          Row(
-                            children: <Widget>[
-                              SizedBox(
-                                height: 50,
-                              ),
-                              Container(
-                                child: Text(
-                                    " Send message to All ",
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                    )),
-                              ),
-                              SizedBox(
-                                width: 30,
-                              ),
-                              Checkbox(
-                                checkColor: Colors.white,
-                                fillColor:
-                                MaterialStateProperty.resolveWith(getColor),
-                                value: isChecked,
-                                onChanged: (bool? value) {
-                                  setState(() {
-                                    isChecked = value!;
-                                  });
-                                },
-                              )
-                            ],mainAxisAlignment: MainAxisAlignment.center,
-                          ),
                         ],
                       ),
                     ),
@@ -424,7 +395,7 @@ class _MyAppState extends State<cmessage> {
                           Center(
                             child: ElevatedButton(
                               onPressed: () {
-                                /*SendData();*/
+                                SendData();
                                 sendSms();
                               },
                               child: Text('Send',

@@ -110,7 +110,7 @@ class _currencyConverterState extends State<currencyConverter> {
   String result10b="";
   String result10s="";
 
-  double brate=0.08;
+  double brate=0.02;
 
 
   Future<List<String>> getCurrencyList() async {
@@ -217,8 +217,8 @@ class _currencyConverterState extends State<currencyConverter> {
                                       onSubmitted: (value) async {
                                         rate = await client.getRate(from11, to);
 
-                                          rate1 = await client.getRate(from11, from1);
-                                          rate2 = await client.getRate(from11, from2);
+                                          rate1 = await client.getRate(from11, from1) ;
+                                          rate2 = await client.getRate(from11, from2) ;
                                           rate3 = await client.getRate(from11, from3);
                                           rate4 = await client.getRate(from11, from4);
                                           rate5 = await client.getRate(from11, from5);
@@ -433,7 +433,6 @@ class _currencyConverterState extends State<currencyConverter> {
                                     DataColumn(label: Text("Buy",style: TextStyle(fontSize: 17,fontWeight: FontWeight.bold)),),
                                     DataColumn(label: Text("Sell",style: TextStyle(fontSize: 17,fontWeight: FontWeight.bold)),),
                                   ],
-
                                   rows: [
                                     DataRow(cells: [
                                       DataCell(Text("$from1 (\$)",style: TextStyle(fontSize: 16))),

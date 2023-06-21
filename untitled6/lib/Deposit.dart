@@ -1,11 +1,13 @@
 import 'dart:convert';
 import 'dart:typed_data';
+import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart ' as http;
 import 'package:untitled6/Bar.dart';
 import 'Crypto/crypto.dart';
 import 'Search.dart';
+import 'dart:developer';
 
 class Deposit extends StatefulWidget {
   var Email = "";
@@ -42,7 +44,7 @@ class Deposit extends StatefulWidget {
       Adress: Adress,
       nationalid: nationalid);
 }
-
+bool _isReloading = false;
 String dropdown3 = 'EGP';
 var items3 = ['EGP', 'USD', 'SAR', 'KWD'];
 
@@ -89,23 +91,28 @@ Future<Null> selectTime(BuildContext context) async {
 var h;
 
 Future SendData2deposit(var date, var time) async {
-
   var url = Uri.parse(
       'https://inconspicuous-pairs.000webhostapp.com/transactions.php');
 
   final key = "2f7b4e8d71c4a00f2a3f4c175a8a4e6c";
   final aes = Aes(key);
 
-  final encAcc = base64Encode(aes.encrypt(Uint8List.fromList(utf8.encode(accnum.text))));
-  final enctoo = base64Encode(aes.encrypt(Uint8List.fromList(utf8.encode(accnum.text))));
-  final encamount = base64Encode(aes.encrypt(Uint8List.fromList(utf8.encode(Depostmoney.text))));
-  final encdate = base64Encode(aes.encrypt(Uint8List.fromList(utf8.encode(date))));
-  final enctime = base64Encode(aes.encrypt(Uint8List.fromList(utf8.encode(time))));
-  final encrbalance = base64Encode(aes.encrypt(Uint8List.fromList(utf8.encode(c.toString()))));
-  final enctype = base64Encode(aes.encrypt(Uint8List.fromList(utf8.encode('Deposit'))));
+  final encAcc =
+      base64Encode(aes.encrypt(Uint8List.fromList(utf8.encode(accnum.text))));
+  final enctoo =
+      base64Encode(aes.encrypt(Uint8List.fromList(utf8.encode(accnum.text))));
+  final encamount = base64Encode(
+      aes.encrypt(Uint8List.fromList(utf8.encode(Depostmoney.text))));
+  final encdate =
+      base64Encode(aes.encrypt(Uint8List.fromList(utf8.encode(date))));
+  final enctime =
+      base64Encode(aes.encrypt(Uint8List.fromList(utf8.encode(time))));
+  final encrbalance =
+      base64Encode(aes.encrypt(Uint8List.fromList(utf8.encode(c.toString()))));
+  final enctype =
+      base64Encode(aes.encrypt(Uint8List.fromList(utf8.encode('Deposit'))));
 
   final response = await http.post(url, body: {
-
     "accountnumber": encAcc,
     "tooo": enctoo,
     "type": enctype,
@@ -113,8 +120,6 @@ Future SendData2deposit(var date, var time) async {
     "date1": encdate,
     "time1": enctime,
     "rbalance": encrbalance,
-
-
   });
   try {
     var data = json.decode(response.body);
@@ -136,13 +141,20 @@ Future SendData2withdraw(var date, var time) async {
   final key = "2f7b4e8d71c4a00f2a3f4c175a8a4e6c";
   final aes = Aes(key);
 
-  final encAcc = base64Encode(aes.encrypt(Uint8List.fromList(utf8.encode(accnum.text))));
-  final enctoo = base64Encode(aes.encrypt(Uint8List.fromList(utf8.encode(accnum.text))));
-  final encamount = base64Encode(aes.encrypt(Uint8List.fromList(utf8.encode(Depostmoney.text))));
-  final encdate = base64Encode(aes.encrypt(Uint8List.fromList(utf8.encode(date))));
-  final enctime = base64Encode(aes.encrypt(Uint8List.fromList(utf8.encode(time))));
-  final encrbalance = base64Encode(aes.encrypt(Uint8List.fromList(utf8.encode(c.toString()))));
-  final enctype = base64Encode(aes.encrypt(Uint8List.fromList(utf8.encode('Withdraw'))));
+  final encAcc =
+      base64Encode(aes.encrypt(Uint8List.fromList(utf8.encode(accnum.text))));
+  final enctoo =
+      base64Encode(aes.encrypt(Uint8List.fromList(utf8.encode(accnum.text))));
+  final encamount = base64Encode(
+      aes.encrypt(Uint8List.fromList(utf8.encode(Depostmoney.text))));
+  final encdate =
+      base64Encode(aes.encrypt(Uint8List.fromList(utf8.encode(date))));
+  final enctime =
+      base64Encode(aes.encrypt(Uint8List.fromList(utf8.encode(time))));
+  final encrbalance =
+      base64Encode(aes.encrypt(Uint8List.fromList(utf8.encode(c.toString()))));
+  final enctype =
+      base64Encode(aes.encrypt(Uint8List.fromList(utf8.encode('Withdraw'))));
 
   final response = await http.post(url, body: {
     "accountnumber": encAcc,
@@ -167,15 +179,16 @@ Future SendData2withdraw(var date, var time) async {
 }
 
 Future Updatedata(var accnum1) async {
-
-  var url = Uri.parse('https://inconspicuous-pairs.000webhostapp.com/Deposit.php');
+  var url =
+      Uri.parse('https://inconspicuous-pairs.000webhostapp.com/Deposit.php');
   print(accnum1.toString());
   print(c.toString());
 
   final key = "2f7b4e8d71c4a00f2a3f4c175a8a4e6c";
   final aes = Aes(key);
 
-  final encAcc = base64Encode(aes.encrypt(Uint8List.fromList(utf8.encode(accnum1))));
+  final encAcc =
+      base64Encode(aes.encrypt(Uint8List.fromList(utf8.encode(accnum1))));
 
   final response = await http.post(url, body: {
     "accnum": encAcc,
@@ -211,7 +224,8 @@ Future getUserData(String accnum) async {
   final key = "2f7b4e8d71c4a00f2a3f4c175a8a4e6c";
   final aes = Aes(key);
 
-  final encAcc = base64Encode(aes.encrypt(Uint8List.fromList(utf8.encode(accnum))));
+  final encAcc =
+      base64Encode(aes.encrypt(Uint8List.fromList(utf8.encode(accnum))));
 
   var response = await http.post(url, body: {
     "accountnumber": encAcc,
@@ -226,12 +240,12 @@ Future getUserData(String accnum) async {
 }
 
 Future<void> getData(String accnum) async {
-
   final key = "2f7b4e8d71c4a00f2a3f4c175a8a4e6c";
   final aes = Aes(key);
-  final decryptedaccnum = utf8.decode(aes.decrypt(base64Decode(data[0]["accountnumber"])));
+  final decryptedaccnum =
+      utf8.decode(aes.decrypt(base64Decode(data[0]["accountnumber"])));
 
-  accountnum1 =decryptedaccnum;
+  accountnum1 = decryptedaccnum;
 
   balance1 = data[0]["balance"];
   money = data[0]["money"];
@@ -268,6 +282,17 @@ class _MyAppState extends State<Deposit> {
   bool withdraw = false;
   bool _isreadonly = true;
 
+  Future<void> performHotReload() async {
+    setState(() {
+      _isReloading = true;
+    });
+    await Future.delayed(Duration(seconds: 1)); // Simulate a delay
+    window.scheduleFrame();
+    setState(() {
+      _isReloading = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     var date = "${date1.year} - ${date1.month} - ${date1.day}".toString();
@@ -297,7 +322,7 @@ class _MyAppState extends State<Deposit> {
                       image: AssetImage("images/logo3.jpeg"),
                       height: 150,
                     ),
-                    SizedBox(width: 1300),
+                    SizedBox(width: 1250),
                     IconButton(
                         onPressed: () {
                           Navigator.push(
@@ -323,6 +348,23 @@ class _MyAppState extends State<Deposit> {
                     SizedBox(
                       width: 10,
                     ),
+                        Stack(
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                performHotReload();
+                              },
+                              child: Icon(Icons.restart_alt_rounded,color: Colors.white,
+                                size: 30,),
+                            ),
+                            if (_isReloading)
+                              Positioned.fill(
+                                child: Center(
+                                  child: CircularProgressIndicator(),
+                                ),
+                              ),
+                          ],
+                        ),
                   ])),
                 ),
                 backgroundColor: Color(0xff8d0000),
@@ -424,7 +466,7 @@ class _MyAppState extends State<Deposit> {
                           ),
                           SizedBox(
                             height: 30,
-                            width: 200,
+                            width: 220,
                             child: TextField(
                               readOnly: _isreadonly,
                               controller: cfn12,
@@ -681,10 +723,16 @@ class _MyAppState extends State<Deposit> {
                                               side: BorderSide(
                                                   color: Color(0xff8d0000))))),
                                   onPressed: () async {
-                                    if (int.parse(Depostmoney.text) > 10000) {
+
+                                    if (int.parse(Depostmoney.text) < 0) {
+                                      showAlertDialog(context, " Wrong Input ");
+                                    }
+                                   else if (int.parse(Depostmoney.text) > 100000 ||
+                                        int.parse(Depostmoney.text) < 50) {
                                       showAlertDialog(context,
-                                          " Your maximum daily deposit amount is 10,000 ");
-                                    } else {
+                                          " Your maximum daily deposit amount is 100,000 And minimum deposit amount 50 ");
+                                    }
+                                    else {
                                       c = int.parse(balance1) +
                                           int.parse(Depostmoney.text);
                                       print(c);
@@ -942,7 +990,11 @@ class _MyAppState extends State<Deposit> {
                                   onPressed: () async {
                                     if (int.parse(Depostmoney.text) < 0) {
                                       showAlertDialog(context, " Wrong Input ");
-                                    } else if (int.parse(Depostmoney.text) >
+                                    } else if (int.parse(Depostmoney.text) <
+                                        50) {
+                                      showAlertDialog(context,
+                                          " Your minimum withdraw 50 Pound");
+                                    }  else if (int.parse(Depostmoney.text) >
                                         int.parse(balance.text)) {
                                       showAlertDialog(context,
                                           "Your Account balance isn't enough");

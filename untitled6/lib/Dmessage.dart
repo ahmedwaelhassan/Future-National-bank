@@ -104,7 +104,7 @@ class _MyAppState extends State<dmessage> {
     mobileee = data[0]["mobilenumber"];
   }
 
-  TextEditingController accnumm=TextEditingController();
+  TextEditingController accnumm = TextEditingController();
 
   var messages;
   var type;
@@ -136,8 +136,92 @@ class _MyAppState extends State<dmessage> {
 
   void sendSms() async {
     String accountSid = 'AC7cad2e628cef2571f0ac470e9d09c80b';
-    String authToken = '056a3abe94db92a9ab0f96322ca26745';
+    String authToken = 'd1fdf51e9d723375567a4d7749654dc6';
     String fromNumber = '+16812069396';
+    String toNumber = mobilee.text;
+    String message = dropdown;
+    String uri = 'https://api.twilio.com/2010-04-01/Accounts/$accountSid/Messages.json';
+
+    var response = await http.post(Uri.parse(uri),
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Authorization': 'Basic ' + base64Encode(utf8.encode('$accountSid:$authToken')),
+      },
+      body: {
+        'From': fromNumber,
+        'To': toNumber,
+        'Body': message,
+      },
+    );
+
+    if (response.statusCode == 201) {
+      print('SMS message sent successfully!');
+    } else {
+      print('Failed to send SMS message. ${response.body}');
+    }
+  }
+
+  //ziad
+  void sendSms2() async {
+    String accountSid = 'ACfd5f299f4d008b84af425e02265f84ac';
+    String authToken = '723787d7caaadf7dde3c8971cd2d41e9';
+    String fromNumber = '+12707137281';
+    String toNumber = mobilee.text;
+    String message = dropdown;
+    String uri = 'https://api.twilio.com/2010-04-01/Accounts/$accountSid/Messages.json';
+
+    var response = await http.post(Uri.parse(uri),
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Authorization': 'Basic ' + base64Encode(utf8.encode('$accountSid:$authToken')),
+      },
+      body: {
+        'From': fromNumber,
+        'To': toNumber,
+        'Body': message,
+      },
+    );
+
+    if (response.statusCode == 201) {
+      print('SMS message sent successfully!');
+    } else {
+      print('Failed to send SMS message. ${response.body}');
+    }
+  }
+
+  // haneen
+  void sendSms3() async {
+    String accountSid = 'AC29adea0d1b73d261d1788185df59d77d';
+    String authToken = '352b202f9bebe4af256af51ba36078a0';
+    String fromNumber = '+12705141944';
+    String toNumber = mobilee.text;
+    String message = dropdown;
+    String uri = 'https://api.twilio.com/2010-04-01/Accounts/$accountSid/Messages.json';
+
+    var response = await http.post(Uri.parse(uri),
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Authorization': 'Basic ' + base64Encode(utf8.encode('$accountSid:$authToken')),
+      },
+      body: {
+        'From': fromNumber,
+        'To': toNumber,
+        'Body': message,
+      },
+    );
+
+    if (response.statusCode == 201) {
+      print('SMS message sent successfully!');
+    } else {
+      print('Failed to send SMS message. ${response.body}');
+    }
+  }
+
+  // dody
+  void sendSms4() async {
+    String accountSid = 'AC93c276f99233cbd1099bd64d88ab3aa4';
+    String authToken = '1ffdd65f1455ea03fcb28281ba19c0cc';
+    String fromNumber = '+13614541272';
     String toNumber = mobilee.text;
     String message = dropdown;
     String uri = 'https://api.twilio.com/2010-04-01/Accounts/$accountSid/Messages.json';
@@ -381,35 +465,7 @@ class _MyAppState extends State<dmessage> {
                                       ),
                                     ),
                                   ),
-                                  Row(
-                                    children: <Widget>[
-                                      SizedBox(
-                                        height: 50,
-                                      ),
-                                      Container(
-                                        child: Text(
-                                            " Send message to All ",
-                                            style: TextStyle(
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.bold,
-                                            )),
-                                      ),
-                                      SizedBox(
-                                        width: 30,
-                                      ),
-                                      Checkbox(
-                                        checkColor: Colors.white,
-                                        fillColor:
-                                        MaterialStateProperty.resolveWith(getColor),
-                                        value: isChecked,
-                                        onChanged: (bool? value) {
-                                          setState(() {
-                                            isChecked = value!;
-                                          });
-                                        },
-                                      )
-                                    ],mainAxisAlignment: MainAxisAlignment.center,
-                                  ),
+
                                 ],
                               ),
                             ),
@@ -423,8 +479,32 @@ class _MyAppState extends State<dmessage> {
                                   Center(
                                     child: ElevatedButton(
                                       onPressed: () {
-                                        /*SendData();*/
-                                        sendSms();
+                                        // bebo
+                                        if(accnumm.text == "4519201933171111") {
+                                          SendData();
+                                          sendSms();
+                                        }
+                                        // ziad
+                                        else if(accnumm.text == "4183418341834183")
+                                          {
+                                            sendSms2();
+                                            SendData();
+                                          }
+                                        // haneen
+                                        else if (accnumm.text == "4519201908912345")
+                                          {
+                                            sendSms3();
+                                            SendData();
+                                          }
+                                        else if (accnumm.text == "4519201951989101")
+                                          {
+                                            sendSms4();
+                                            SendData();
+                                          }
+                                       /* else if(accnumm.text == "4519201908912345")
+                                          {
+
+                                          }*/
                                       },
                                       child: Text('Send',
                                           style: TextStyle(

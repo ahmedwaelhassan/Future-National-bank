@@ -658,7 +658,7 @@ class _createaccounttate extends State<createaccount> {
                                           validator: (value) {
                                             if (value!.isEmpty ||
                                                 !RegExp(
-                                                    r'^(\+\d{1,3}[- ]?)?\d{11}$')
+                                                    r'^01[0-2,5]{1}[1-9][0-9]{7}$')
                                                     .hasMatch(value!)) {
                                               return "please enter Correct Mobile number";
                                             } else
@@ -919,6 +919,7 @@ class _createaccounttate extends State<createaccount> {
                                       child: TextFormField(
                                         textAlign: TextAlign.center,
                                         controller: pass2,
+                                        obscureText: true,
                                         validator: (value) {
                                           if (value!.isEmpty ||
                                               !RegExp(r'^[0-9][0-9]{3}$')

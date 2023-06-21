@@ -385,7 +385,7 @@ var data;
                                   ),
                                   ),
                                   IconButton(onPressed: (){
-                                    Navigator.push(context, MaterialPageRoute(builder: (context) => changepass(),));
+                                    Navigator.push(context, MaterialPageRoute(builder: (context) => changepass(Email: Email, Password: Password, username: username, mobile: mobile, Gender: Gender, dob: dob, id: id, Adress: Adress, nationalid: nationalid),));
                                   }, icon: Icon(Icons.password))
                                 ],
                               ),
